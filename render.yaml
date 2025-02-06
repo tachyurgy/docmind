@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: docmind
+    runtime: docker
+    repo: https://github.com/tachyurgy/docmind
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: docmind-db
+          property: connectionURI
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: API_KEY
+        generateValue: true
+    healthCheckPath: /health
+
+databases:
+  - name: docmind-db
+    plan: starter
+    postgresMajorVersion: 16
+    ipAllowList: []
